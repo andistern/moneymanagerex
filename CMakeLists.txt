@@ -8,8 +8,8 @@ OPTION(BuildTests "Whether to build automatic unit tests" OFF)
 
 MESSAGE(STATUS "Build Type = ${CMAKE_BUILD_TYPE}")
 MESSAGE(STATUS "Building Tests = ${BuildTests}")
-
 MESSAGE(STATUS "OS = ${CMAKE_SYSTEM_NAME}")
+
 IF (CMAKE_SYSTEM_NAME MATCHES "Linux")
 	# Detect Linux distribution (if possible)
 	EXECUTE_PROCESS(COMMAND "/usr/bin/lsb_release" "-is"
@@ -20,7 +20,8 @@ IF (CMAKE_SYSTEM_NAME MATCHES "Linux")
 	MESSAGE(STATUS "Distro = ${LINUX_DISTRO}")
 ENDIF ()
 
-#Set compiler parameters
+
+# --------- Set compiler parameters ---------
 SET(CMAKE_CXX_STANDARD 11)
 
 IF (MSVC)
@@ -47,8 +48,7 @@ ELSEIF ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 ENDIF ()
 
 
-
-#Set various location
+# --------- Set various location ---------
 SET(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
 SET(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/lib")
 
@@ -58,7 +58,7 @@ SET(INSTALL_RES_DIR "share/mmex/res")
 SET(INSTALL_MO_DIR "share/mmex/po")
 
 
-#Check for required libraries
+# --------- Check for required libraries ---------
 FIND_PACKAGE(Gettext REQUIRED)
 #wxScintilla is needed on Windows
 IF (CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -102,7 +102,6 @@ IF (BuildTests)
 ENDIF ()
 
 
-
 ## Build and Link ##
 IF (NOT WIN32)
     TARGET_LINK_LIBRARIES(wxSQLite3 dl)
@@ -113,21 +112,19 @@ IF (BuildTests)
 ENDIF ()
 
 
-
-## Install ##
-
-#OSX
+# --------- Install ---------
+# OSX
 IF (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 	#TODO:
 ENDIF ()
-#Linux
+# Linux
 IF (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 
-	#Binary	
+	# Binary
 	INSTALL(PROGRAMS "${CMAKE_SOURCE_DIR}/bin/mmex" 
 		DESTINATION bin)
-	
-	#Help Files
+
+	# Help Files
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/doc/contrib.txt"
 		"${CMAKE_SOURCE_DIR}/doc/license.txt"
 		"${CMAKE_SOURCE_DIR}/doc/version.txt"
@@ -137,7 +134,7 @@ IF (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/resources/master.css"
 	        DESTINATION "${INSTALL_DOC_DIR}/help")
 
-	#Resources
+	# Resources
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/3rd/ChartNew.js/ChartNew.js"
 		"${CMAKE_SOURCE_DIR}/3rd/sorttable.js/sorttable.js"
 		"${CMAKE_SOURCE_DIR}/resources/home_page.htt"
@@ -146,23 +143,22 @@ IF (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 		"${CMAKE_SOURCE_DIR}/resources/mmex.ico"
 		DESTINATION "${INSTALL_RES_DIR}/")
 
-	#.desktop File
+	# .desktop File
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/resources/mmex.desktop"
 		DESTINATION "share/applications")
 
-	#Icons
+	# Icons
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/resources/mmex.svg"
 		DESTINATION "share/icons/hicolor/scalable/apps")
 
 ENDIF ()
-#Windows
+# Windows
 IF (CMAKE_SYSTEM_NAME STREQUAL "Windows")
 	#TODO:
 ENDIF ()
 
 
-
-## CPack ##
+# --------- CPack ---------
 SET(CPACK_PACKAGE_NAME "mmex")
 SET(CPACK_PACKAGE_VERSION "1.3.3")
 SET(CPACK_PACKAGE_CONTACT "MoneyManagerEx Developers <developers@moneymanagerex.org>")
