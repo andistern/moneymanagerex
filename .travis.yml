@@ -1,6 +1,5 @@
 language: cpp
-compiler:
-  - clang
+
 before_install:
   - echo $TRAVIS_OS_NAME
   - brew update
@@ -21,5 +20,7 @@ notifications:
   email:
     on_success: change
     on_failure: always
-os:
-  - osx
+
+- os: osx
+  env: EXTRA_FLAGS="-stdlib=libc++"
+  compiler: clang
