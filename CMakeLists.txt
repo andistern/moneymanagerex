@@ -46,6 +46,7 @@ ELSE()
     FIND_PACKAGE(wxWidgets REQUIRED core qa net html xml aui adv stc webview base REQUIRED)
 ENDIF()
 INCLUDE(${wxWidgets_USE_FILE})
+SET(wxWidgets_USE_DEBUG false)
 
 MESSAGE("-- Base Directory =  ${CMAKE_SOURCE_DIR}")
 
