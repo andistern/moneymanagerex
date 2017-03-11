@@ -28,5 +28,4 @@ notifications: # set notification options
     on_failure: always
 
 os: osx
-env: EXTRA_FLAGS="-stdlib=libc++"
 compiler: clang

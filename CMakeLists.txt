@@ -23,6 +23,7 @@ ELSEIF (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") OR ("${CMAKE_CXX_COMPILER_ID
 		#TODO:
 	ELSE()
 		MESSAGE("-- Compiler = Clang")
+		SET(CMAKE_CXX_FLAGS "-stdlib=libc++")
 		#TODO:
 	ENDIF()
 ENDIF ()
