@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 
 SET(InMMEX TRUE)
 
-PROJECT(MoneyManagerEx VERSION 1.3.0)
+PROJECT(MoneyManagerEx VERSION 1.3.3)
 
 OPTION(BuildTests "Whether to build automatic unit tests" OFF)
 
@@ -137,7 +137,7 @@ ENDIF ()
 
 ## CPack ##
 SET(CPACK_PACKAGE_NAME "mmex")
-SET(CPACK_PACKAGE_VERSION "1.3.0")
+SET(CPACK_PACKAGE_VERSION "1.3.3")
 SET(CPACK_PACKAGE_CONTACT "MoneyManagerEx Developers <developers@moneymanagerex.org>")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Simple to use financial management software")
 SET(CPACK_PACKAGE_DESCRIPTION "Money Manager Ex (MMEX) is a free, open-source, cross-platform, easy-to-use personal finance software. It primarily helps organize one's finances and keeps track of where, when and how the money goes. MMEX includes all the basic features that 90% of users would want to see in a personal finance application. The design goals are to concentrate on simplicity and user friendliness - something one can use everyday.")
