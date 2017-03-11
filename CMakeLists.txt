@@ -9,23 +9,25 @@ OPTION(BuildTests "Whether to build automatic unit tests" OFF)
 MESSAGE("-- Build Type = ${CMAKE_BUILD_TYPE}")
 MESSAGE("-- Building Tests = ${BuildTests}")
 
+
 #Set compiler parameters
 SET(CMAKE_CXX_STANDARD 11)
-#MSVC
+
 IF (MSVC)
+	# using Visual Studio C++
 	MESSAGE("-- Compiler = MSVC")
 	#TODO:
 
-#GCC or Clang
-ELSEIF (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
-	IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-		MESSAGE("-- Compiler = GNU")
-		#TODO:
-	ELSE()
-		MESSAGE("-- Compiler = Clang")
-		SET(CMAKE_CXX_FLAGS "-stdlib=libc++")
-		#TODO:
-	ENDIF()
+ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+	# using GCC
+	MESSAGE("-- Compiler = GNU")
+	#TODO:
+
+ELSEIF ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+	# using regular Clang or AppleClang
+	MESSAGE("-- Compiler = Clang")
+	SET(CMAKE_CXX_FLAGS "-stdlib=libc++")
+
 ENDIF ()
 
 
@@ -37,6 +39,7 @@ SET(INSTALL_BIN_DIR "bin")
 SET(INSTALL_DOC_DIR "share/doc/mmex")
 SET(INSTALL_RES_DIR "share/mmex/res")
 SET(INSTALL_MO_DIR "share/mmex/po")
+
 
 #Check for required libraries
 FIND_PACKAGE(Gettext REQUIRED)
@@ -81,6 +84,8 @@ IF (BuildTests)
     ADD_SUBDIRECTORY(tests)
 ENDIF ()
 
+
+
 ## Build and Link ##
 IF (NOT WIN32)
     TARGET_LINK_LIBRARIES(wxSQLite3 dl)
@@ -89,6 +94,8 @@ TARGET_LINK_LIBRARIES(mmex ${wxWidgets_LIBRARIES} wxSQLite3 LUA)
 IF (BuildTests)
     TARGET_LINK_LIBRARIES(MMEXTest CPPUnit ${wxWidgets_LIBRARIES} wxSQLite3 LUA)
 ENDIF ()
+
+
 
 ## Install ##
 
@@ -136,6 +143,8 @@ IF (CMAKE_SYSTEM_NAME STREQUAL "Windows")
 	#TODO:
 ENDIF ()
 
+
+
 ## CPack ##
 SET(CPACK_PACKAGE_NAME "mmex")
 SET(CPACK_PACKAGE_VERSION "1.3.3")
@@ -165,7 +174,6 @@ ENDIF ()
 IF (CMAKE_SYSTEM_NAME STREQUAL "Windows")
 	#TODO:
 ENDIF()
-
 
 INCLUDE(CPack) 
 	
