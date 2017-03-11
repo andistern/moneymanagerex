@@ -26,8 +26,14 @@ ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 ELSEIF ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 	# using regular Clang or AppleClang
 	MESSAGE("-- Compiler = Clang")
-	SET(CMAKE_CXX_FLAGS "-stdlib=libc++")
 
+	IF (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+		# Due to bug in Ubuntu
+		# http://stackoverflow.com/questions/37096062/get-a-basic-c-program-to-compile-using-clang-on-ubuntu-16
+		SET(CMAKE_CXX_FLAGS "-stdlib=libstdc++")
+	ELSEIF(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+		SET(CMAKE_CXX_FLAGS "-stdlib=libc++")
+	ENDIF()
 ENDIF ()
 
 
