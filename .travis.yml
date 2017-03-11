@@ -1,7 +1,7 @@
 before_install:
   - echo $TRAVIS_OS_NAME
   - brew update
-  - brew install wxwidgets --devel
+  - brew install wxmac
   - brew install gettext
   - brew link --force gettext
 
