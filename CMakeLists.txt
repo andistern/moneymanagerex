@@ -6,28 +6,38 @@ PROJECT(MoneyManagerEx VERSION 1.3.3)
 
 OPTION(BuildTests "Whether to build automatic unit tests" OFF)
 
-MESSAGE("-- Build Type = ${CMAKE_BUILD_TYPE}")
-MESSAGE("-- Building Tests = ${BuildTests}")
+MESSAGE(STATUS "Build Type = ${CMAKE_BUILD_TYPE}")
+MESSAGE(STATUS "Building Tests = ${BuildTests}")
 
+MESSAGE(STATUS "OS = ${CMAKE_SYSTEM_NAME}")
+IF (CMAKE_SYSTEM_NAME MATCHES "Linux")
+	# Detect Linux distribution (if possible)
+	EXECUTE_PROCESS(COMMAND "/usr/bin/lsb_release" "-is"
+			TIMEOUT 4
+			OUTPUT_VARIABLE LINUX_DISTRO
+			ERROR_QUIET
+			OUTPUT_STRIP_TRAILING_WHITESPACE)
+	MESSAGE(STATUS "Distro = ${LINUX_DISTRO}")
+ENDIF ()
 
 #Set compiler parameters
 SET(CMAKE_CXX_STANDARD 11)
 
 IF (MSVC)
 	# using Visual Studio C++
-	MESSAGE("-- Compiler = MSVC")
+	MESSAGE(STATUS "Compiler = MSVC")
 	#TODO:
 
 ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	# using GCC
-	MESSAGE("-- Compiler = GNU")
+	MESSAGE(STATUS "Compiler = GNU")
 	#TODO:
 
 ELSEIF ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 	# using regular Clang or AppleClang
-	MESSAGE("-- Compiler = Clang")
+	MESSAGE(STATUS "Compiler = Clang")
 
-	IF (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+	IF (CMAKE_SYSTEM_NAME STREQUAL "Linux" AND LINUX_DISTRO STREQUAL "Ubuntu")
 		# Due to bug in Ubuntu
 		# http://stackoverflow.com/questions/37096062/get-a-basic-c-program-to-compile-using-clang-on-ubuntu-16
 		SET(CMAKE_CXX_FLAGS "-stdlib=libstdc++")
@@ -35,6 +45,7 @@ ELSEIF ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 		SET(CMAKE_CXX_FLAGS "-stdlib=libc++")
 	ENDIF()
 ENDIF ()
+
 
 
 #Set various location
@@ -58,7 +69,7 @@ ENDIF()
 INCLUDE(${wxWidgets_USE_FILE})
 SET(wxWidgets_USE_DEBUG false)
 
-MESSAGE("-- Base Directory =  ${CMAKE_SOURCE_DIR}")
+MESSAGE(STATUS "Base Directory =  ${CMAKE_SOURCE_DIR}")
 
 INCLUDE_DIRECTORIES(
 	${wxWidgets_INCLUDE_DIRS}
